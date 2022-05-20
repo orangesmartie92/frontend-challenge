@@ -1,15 +1,14 @@
 import React from 'react';
+import {Routes, Route} from 'react-router-dom';
+import AdditionalInformationPage from './pages/AdditionalInformationPage';
+import SignUpPage from './pages/SignUpPage';
 
 function App() {
   return (
-    <div>
-      <header>
-        <h1>Welcome to Upgrade challenge</h1>
-      </header>
-      <p>
-        To get started, edit <code>src/App.js</code> and save to reload.
-      </p>
-    </div>
+    <Routes>
+      <Route path="/" element={<SignUpPage />} />
+      <Route path="/more-info" element={<AdditionalInformationPage />} />
+    </Routes>
   );
 }
 
