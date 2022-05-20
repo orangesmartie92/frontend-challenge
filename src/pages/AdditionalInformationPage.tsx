@@ -2,13 +2,13 @@ import {z} from 'zod';
 import {Box, Container, Text, VStack} from '@chakra-ui/layout';
 import {useForm} from 'react-hook-form';
 import {zodResolver} from '@hookform/resolvers/zod';
-import {usePasswordTextInputProps} from '../hooks/use-password-verification';
 import {Button} from '@chakra-ui/button';
 import {useNavigate} from 'react-router-dom';
 import {Checkbox} from '@chakra-ui/checkbox';
 import {Select} from '@chakra-ui/select';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
+import {FormControl} from '@chakra-ui/form-control';
 
 const schema = z.object({
   color: z.string().min(1, {message: 'Name Required'}),
@@ -19,7 +19,7 @@ interface AdditionalInformationPageProps {}
 
 const AdditionalInformationPage: React.FC<AdditionalInformationPageProps> = () => {
   const navigate = useNavigate();
-  const {handleSubmit, register, formState} = useForm({
+  const {handleSubmit, register, formState, getValues} = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       color: '',
@@ -35,7 +35,25 @@ const AdditionalInformationPage: React.FC<AdditionalInformationPageProps> = () =
       setColorOptions(response.data);
     }
   };
-  const next = async () => {};
+  const next = async () => {
+    try {
+      const {color, terms} = getValues();
+      const response = await axios.post('/api/submit', {
+        body: {
+          name: '',
+          email: '',
+          password: '',
+          color,
+          terms,
+        },
+      });
+      if (response.status === 200) {
+        navigate('/success');
+      }
+    } catch (err) {
+      navigate('/error');
+    }
+  };
   useEffect(() => {
     getColors();
   }, []);
@@ -56,13 +74,15 @@ const AdditionalInformationPage: React.FC<AdditionalInformationPageProps> = () =
           }}
         >
           <VStack as="form" align="stretch" onSubmit={handleSubmit(next)}>
-            <Select {...register('terms')}>
-              {colorOptions.map((value) => (
-                <option key={`${value}`} value={`${value}`}>
-                  {value}
-                </option>
-              ))}
-            </Select>
+            <FormControl>
+              <Select {...register('terms')}>
+                {colorOptions.map((value) => (
+                  <option key={`${value}`} value={`${value}`}>
+                    {value}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
             <Checkbox {...register('terms')}>I Agree to the Terms and Conditions</Checkbox>
             <VStack align="stretch" pt="8">
               <Button colorScheme="blue" type="submit">
