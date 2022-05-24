@@ -59,7 +59,7 @@ const AdditionalInformationPage: React.FC<AdditionalInformationPageProps> = () =
     if (colors.length === 0) {
       getColors();
     }
-  }, []);
+  }, [colors.length, getColors]);
   return (
     <StandardLayout title={t('more-info:page-title')}>
       <Card>

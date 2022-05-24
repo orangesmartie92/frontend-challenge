@@ -20,6 +20,20 @@ const initialSignUpData = {
   terms: false,
 };
 
+/**
+ *
+ * Session Provider should actually be linked to a service (and that is also handled backend)
+ * I understand we should not store passowrds on the local storage. sensitive data should be only be kept in memory.
+ *
+ * That being said, since we were not supposed to touch the backend, I was trying to 'persist' the data so that we
+ * can move forward, like a real app.
+ *
+ * Otherwise, a session id would be utilized from the first sign up page, and a 'sign up user' would be created
+ * from the first sign up page (and not carried along to the last page)
+ *
+ * @param
+ * @returns
+ */
 export const SessionProvider: React.FC<SessionProviderProps> = ({children}) => {
   const {
     email = '',

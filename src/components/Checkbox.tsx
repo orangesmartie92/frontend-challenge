@@ -2,7 +2,7 @@ import {
   Checkbox as ChakraCheckbox,
   CheckboxProps as ChakraCheckboxProps,
 } from '@chakra-ui/checkbox';
-import {FormControl, FormLabel} from '@chakra-ui/form-control';
+import {FormControl} from '@chakra-ui/form-control';
 import {forwardRef} from '@chakra-ui/react';
 import {FieldError} from './FieldError';
 

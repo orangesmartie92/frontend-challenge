@@ -1,59 +1,60 @@
-import { useState, useCallback, DependencyList } from 'react'
-import { useMountedState } from './use-mounted-state'
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useState, useCallback, DependencyList} from 'react';
+import {useMountedState} from './use-mounted-state';
 
 /**
  * Uninitialized request state. Request has not been dispatched yet.
  */
 export interface Uninitialized {
-  type: 'uninitialized'
-  data?: undefined
-  error?: undefined
+  type: 'uninitialized';
+  data?: undefined;
+  error?: undefined;
 }
 
 /**
  * Loading request state.
  */
 export interface Loading<Result> {
-  type: 'loading'
-  data?: Result
-  error?: undefined
+  type: 'loading';
+  data?: Result;
+  error?: undefined;
 }
 
 /**
  * Success request state, containing request result.
  */
 export interface Success<Result> {
-  type: 'success'
-  data: Result
-  error?: undefined
+  type: 'success';
+  data: Result;
+  error?: undefined;
 }
 
 /**
  * Error request state, containing triggered error.
  */
 export interface Error<Result> {
-  type: 'error'
-  data?: Result
+  type: 'error';
+  data?: Result;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  error: any
+  error: any;
 }
 
 /**
  * This type regroups all possible request states.
  */
-export type TaskState<Result> = Uninitialized | Loading<Result> | Success<Result> | Error<Result>
+export type TaskState<Result> = Uninitialized | Loading<Result> | Success<Result> | Error<Result>;
 /**
  * Type of the dispatch request returned by [useAsyncFn].
  */
-export type RequestDispatcher<Args extends unknown[]> = (...params: Args) => void
+export type RequestDispatcher<Args extends unknown[]> = (...params: Args) => void;
 /**
  * Type of the function resetting the Task State.
  */
-export type StateResetter = () => void
+export type StateResetter = () => void;
 
 export interface UsePromiseFnTaskOptions<Result> {
-  initialState?: TaskState<Result>
-  keepDataOnStateChanges?: boolean
+  initialState?: TaskState<Result>;
+  keepDataOnStateChanges?: boolean;
 }
 
 /**
@@ -73,46 +74,47 @@ export const usePromiseFnTask = <Args extends unknown[] = [], Result = void>(
   fn: (...args: Args) => Promise<Result>,
   deps: DependencyList,
   {
-    initialState = { type: 'uninitialized' },
+    initialState = {type: 'uninitialized'},
     keepDataOnStateChanges = false,
   }: UsePromiseFnTaskOptions<Result> = {},
 ): TaskState<Result> & {
-  call: RequestDispatcher<Args>
-  reset: StateResetter
+  call: RequestDispatcher<Args>;
+  reset: StateResetter;
 } => {
-  const [state, set] = useState<TaskState<Result>>(initialState)
+  const [state, set] = useState<TaskState<Result>>(initialState);
 
-  const isMounted = useMountedState()
+  const isMounted = useMountedState();
 
   const callback = useCallback(
     (...args: Args) => {
-      set(prev => ({ type: 'loading', ...(keepDataOnStateChanges ? { data: prev.data } : {}) }))
+      set((prev) => ({type: 'loading', ...(keepDataOnStateChanges ? {data: prev.data} : {})}));
 
       return fn(...args).then(
-        data => {
+        (data) => {
           if (isMounted()) {
-            set({ type: 'success', data })
+            set({type: 'success', data});
           }
 
-          return data
+          return data;
         },
-        error => {
+        (error) => {
           if (isMounted()) {
-            set(prev => ({
+            set((prev) => ({
               type: 'error',
               error,
-              ...(keepDataOnStateChanges ? { data: prev.data } : {}),
-            }))
+              ...(keepDataOnStateChanges ? {data: prev.data} : {}),
+            }));
           }
 
-          return error
+          return error;
         },
-      )
+      );
     },
+
     [...deps, keepDataOnStateChanges],
-  )
+  );
 
-  const reset = useCallback(() => set(initialState), [])
+  const reset = useCallback(() => set(initialState), []);
 
-  return { ...state, call: callback, reset }
-}
+  return {...state, call: callback, reset};
+};
