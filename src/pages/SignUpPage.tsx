@@ -50,10 +50,18 @@ const SignUpPage: React.FC<SignUpPageProps> = () => {
     <StandardLayout title={t('sign-up:page-title')}>
       <Card>
         <VStack as="form" align="stretch" onSubmit={handleSubmit(onSignUp)}>
-          <TextInput label="Name" {...register('name')} error={errors?.name?.message} />
-          <TextInput label="Email" {...register('email')} error={errors?.email?.message} />
           <TextInput
-            label="Password"
+            label={t('sign-up:form-label-name')}
+            {...register('name')}
+            error={errors?.name?.message}
+          />
+          <TextInput
+            label={t('sign-up:form-label-email')}
+            {...register('email')}
+            error={errors?.email?.message}
+          />
+          <TextInput
+            label={t('sign-up:form-label-password')}
             {...register('password')}
             {...passwordTextInputProps}
             error={errors?.password?.message}
