@@ -17,25 +17,20 @@ export type SignUpProgress =
   | typeof errorPath;
 
 export const useSignUpProgress = (progress: SignUpProgress) => {
-  const {signUpProgress} = useSession();
+  const {signUpProgress, setValues} = useSession();
   const navigate = useNavigate();
   const maybeRedirect = useCallback(() => {
-    switch (progress) {
-      case signUpPath:
-        break;
-      case moreInfoPath:
-      case confirmationPath:
-      case successPath:
-      case errorPath:
-        if (signUpProgress !== progress) {
-          navigate(`/${signUpProgress}`);
-        }
-        break;
-      default:
-        break;
+    if (signUpProgress !== progress) {
+      navigate(`/${signUpProgress}`);
     }
   }, [navigate, progress, signUpProgress]);
+
+  const setProgress = (signUpProgress: SignUpProgress) => {
+    setValues((state) => ({...state, signUpProgress}));
+  };
   useEffect(() => {
     maybeRedirect();
   }, [maybeRedirect]);
+
+  return {setProgress};
 };

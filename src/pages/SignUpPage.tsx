@@ -12,6 +12,7 @@ import {useSession} from '../contexts/session/SessionContext';
 import {moreInfoPath} from '../utils/constants/urls';
 import {StandardLayout} from '../components/StandardLayout';
 import {Card} from '../components/Card';
+import {useSignUpProgress} from '../hooks/use-sign-up-progress';
 
 export const schema = z.object({
   name: z.string().min(1, {message: 'Name Required'}),
@@ -22,6 +23,7 @@ export const schema = z.object({
 interface SignUpPageProps {}
 
 const SignUpPage: React.FC<SignUpPageProps> = () => {
+  useSignUpProgress('sign-up');
   const {signUpData, setValues} = useSession();
   const navigate = useNavigate();
   const {t} = useTranslation(['common', 'sign-up']);

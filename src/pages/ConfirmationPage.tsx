@@ -13,11 +13,11 @@ import {errorPath, moreInfoPath, successPath} from '../utils/constants/urls';
 interface ConfirmationPageProps {}
 
 const ConfirmationPage: React.FC<ConfirmationPageProps> = () => {
+  const {setProgress} = useSignUpProgress('confirmation');
   const navigate = useNavigate();
   const {signUpData, setValues} = useSession();
   const {name, email, password, color, terms} = signUpData;
   const {t} = useTranslation(['common', 'confirmation']);
-  useSignUpProgress('confirmation');
 
   const {call: signUp, type: signUpState} = usePromiseFnTask(async () => {
     try {
@@ -68,7 +68,7 @@ const ConfirmationPage: React.FC<ConfirmationPageProps> = () => {
           <Button
             isDisabled={signUpState === 'loading'}
             onClick={() => {
-              navigate(`/${moreInfoPath}`);
+              setProgress(moreInfoPath);
             }}
           >
             {t('common:back')}

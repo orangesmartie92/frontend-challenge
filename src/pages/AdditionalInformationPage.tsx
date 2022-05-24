@@ -12,9 +12,10 @@ import {StandardLayout} from '../components/StandardLayout';
 import {Card} from '../components/Card';
 import {Checkbox} from '../components/Checkbox';
 import {useSession} from '../contexts/session/SessionContext';
-import {confirmationPath} from '../utils/constants/urls';
+import {confirmationPath, signUpPath} from '../utils/constants/urls';
 import {usePromiseFnTask} from '../hooks/use-promise-fn-task';
 import {Skeleton} from '@chakra-ui/react';
+import {useSignUpProgress} from '../hooks/use-sign-up-progress';
 
 const schema = z.object({
   color: z.string().min(1, {message: 'Favorite Color Required'}),
@@ -24,6 +25,7 @@ const schema = z.object({
 interface AdditionalInformationPageProps {}
 
 const AdditionalInformationPage: React.FC<AdditionalInformationPageProps> = () => {
+  const {setProgress} = useSignUpProgress('more-info');
   const navigate = useNavigate();
   const {t} = useTranslation(['common', 'more-info']);
   const {signUpData, colors, setValues} = useSession();
@@ -88,7 +90,7 @@ const AdditionalInformationPage: React.FC<AdditionalInformationPageProps> = () =
               variant="outline"
               isLoading={isSubmitting}
               onClick={() => {
-                navigate('/');
+                setProgress(signUpPath);
               }}
             >
               {t('common:back')}

@@ -15,6 +15,7 @@ export interface SessionValuesContextProps {
 
 export interface SessionContextProps extends SessionValuesContextProps {
   setValues: React.Dispatch<React.SetStateAction<SessionValuesContextProps>>;
+  reset: () => void;
 }
 
 export const SessionContext = createContext<SessionContextProps>(
