@@ -1,5 +1,7 @@
 import {Select as ChakraSelect, SelectProps as ChakraSelectProps} from '@chakra-ui/select';
-import {FormControl} from '@chakra-ui/form-control';
+import {FormControl, FormLabel} from '@chakra-ui/form-control';
+import {forwardRef} from '@chakra-ui/react';
+import {FieldError} from './FieldError';
 
 interface SelectProps extends ChakraSelectProps {
   /**
@@ -18,18 +20,18 @@ interface SelectProps extends ChakraSelectProps {
   options: {value: string; label: string}[];
 }
 
-const Select: React.FC<SelectProps> = ({id, label, error, options, ...props}) => {
+export const Select = forwardRef<SelectProps, 'select'>(({id, label, error, variant, options, isDisabled, ...props}, ref) => {
   return (
-    <FormControl id={id}>
-      <ChakraSelect {...props}>
+    <FormControl w="100%" id={id} isInvalid={!!error} variant={variant} isDisabled={isDisabled}>
+      <FormLabel>{label}</FormLabel>
+      <ChakraSelect ref={ref} {...props}>
         {options.map(({label, value}) => (
-          <option key={`${label}`} value={`${value}`}>
+          <option key={label} value={value}>
             {label}
           </option>
         ))}
       </ChakraSelect>
+      {error && <FieldError error={error} />}
     </FormControl>
   );
-};
-
-export default Select;
+});

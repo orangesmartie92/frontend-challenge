@@ -18,13 +18,9 @@ export const Text: ComponentStyleConfig = {
     'page-header': {
       fontSize: {base: '1.5rem', sm: '2.15rem'},
     },
-  },
-  variants: {
-    light: {
-      color: 'neutral.50',
-    },
-    dark: {
-      color: 'neutral.900',
+    bold: {
+      fontSize: {base: '0.9375rem', sm: '1rem'}, // 15px, 16px
+      fontWeight: 600,
     },
   },
   // The default size and variant values

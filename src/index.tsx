@@ -3,16 +3,19 @@ import {BrowserRouter} from 'react-router-dom';
 import {ChakraProvider} from '@chakra-ui/react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import {theme} from './chakra-themes';
+import './i18n';
+import {SessionProvider} from './contexts/session/SessionProvider';
 
-// 2. Extend the theme to include custom colors, fonts, etc
+import {theme} from './chakra-themes';
 
 const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
       <BrowserRouter>
-        <App />
+        <SessionProvider>
+          <App />
+        </SessionProvider>
       </BrowserRouter>
     </ChakraProvider>
   </React.StrictMode>,

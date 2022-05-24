@@ -19,6 +19,7 @@ export const usePasswordTextInputProps: UsePasswordTextInputProps = (label) => {
     type: showPassword ? 'text' : 'password',
     endIcon: {
       'aria-label': label,
+      variant: 'ghost',
       icon: showPassword ? <FiEye /> : <FiEyeOff />,
       onClick: togglePassword,
     },

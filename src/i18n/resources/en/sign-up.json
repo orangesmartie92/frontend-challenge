@@ -1,0 +1,10 @@
+{
+  "page-title": "Sign Up",
+  "form-label-name": "Name",
+  "form-label-email": "Email",
+  "form-label-password": "Password",
+  "success-message-pt-1": "You have successfully created an account",
+  "success-message-pt-2": "You should receive an email confirmation soon.",
+  "error-message-pt-1": "Uh oh, Something went wrong.",
+  "error-message-pt-2": "Please Try Again"
+}

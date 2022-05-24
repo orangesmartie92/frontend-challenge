@@ -1,0 +1,17 @@
+{
+  "Create Function Component With File Name": {
+    "prefix": "fc",
+    "scope": "typescriptreact",
+    "body": [
+      "import React from 'react'",
+      "",
+      "export interface ${TM_FILENAME_BASE}Props {",
+      "  $1",
+      "}",
+      "",
+      "export const ${TM_FILENAME_BASE}: React.FC<${TM_FILENAME_BASE}Props> = () => {",
+      "  $0",
+      "}"
+    ]
+  }
+}
